@@ -4,10 +4,44 @@
 #include <conio.h>
 #include <iostream>
 #include <time.h>
+#include <windows.h>
+
 #include "lib.h"
 #include "record.h"
 
+void rofl() {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	system("cls");
+	cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
+	cout << "                                                     Вы ждали!\n" << endl;
+	Sleep(2000);
+
+	system("cls");
+	cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
+	cout << "                                                     Вы боялись!\n" << endl;
+	Sleep(2000);
+
+	system("cls");
+	cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
+	cout << "                                                  Но мы это сделали!\n" << endl;
+	Sleep(2000);
+
+	system("cls");
+	cout << "\n\n\n\n\n\n\n\n" << endl;
+	cout << "                                                Лабораторная работа №3" << endl;
+	cout << "                                   тема: 'Унарные и бинарные операции над графами'" << endl;
+	cout << "                                        методом нисходящего программирования" << endl;
+	cout << "                                           выполнили студенты группы 19ВВ2 " << endl;
+	cout <<	"                                          Муромский Димитрий и Кобзев Максим" << endl;
+
+	Sleep(4000);
+	system("cls");
+}
+
 void zad1() {
+	int N = 10;
 	int N2 = 10;
 	int m2[11][11];
 	List relist[11];
@@ -109,29 +143,71 @@ void zad1() {
 			if (relist[i][j].nomer == kol2) {
 				relist[i].removeAt(j);
 			}
+			/*
 			if (relist[i][j].nomer > kol2) {
 				relist[i][j].nomer--;
 			}
+			*/
 		}
 	}
 
+	relist[kol2].clear();
+
+	/*
 	for (int i = kol2; i < N2; i++) {
 		relist[i].clear();
 		for (int j = 0; j < relist[i + 1].GetSize(); j++) {
 			relist[i].push_back(relist[i + 1][j]);
 		}
 	}
-	temp.nomer = kol1;
-	relist[kol1].push_back(temp);
+	*/
+	for (int i = 0; i < relist[kol1].GetSize(); i++){
+		flag = false;
+		for (int j = 0; j < relist[relist[kol1][i].nomer].GetSize(); j++){
+			if (relist[relist[kol1][i].nomer][j].nomer == kol1){
+				flag = true;
+			}
+		}
+		if (!flag){
+			temp.nomer = kol1;
+			relist[relist[kol1][i].nomer].push_back(temp);
+		}
+	}
+
+
+	flag = false;
+	for (int i = 0; i < relist[kol1].GetSize(); i++){
+		if (relist[kol1][i].nomer == kol1){
+			flag = true;
+		}
+	}
+	if (!flag){
+		temp.nomer = kol1;
+		relist[kol1].push_back(temp);
+	}
 
 	printf("\n");
 	printf("\n");
 	N2--;
-
-	for (int i = 0; i < N2; i++) {
-		printf("V%d:", i + 1);
-		for (int j = 0; j < relist[i].GetSize(); j++) {
-			printf(" v%d", relist[i][j].nomer + 1);
+	
+	for (int i = 0;  i < N2; i++){
+		for (int counter = 0; counter < relist[i].GetSize(); counter++){
+			for (int j = 0; j < relist[i].GetSize() - 1 ; j++){
+				if (relist[i][j].nomer > relist[i][j+1].nomer) {
+					relist[i][j].nomer = relist[i][j].nomer ^ relist[i][j+1].nomer;
+					relist[i][j + 1].nomer = relist[i][j+1].nomer ^ relist[i][j].nomer;
+					relist[i][j].nomer = relist[i][j].nomer ^ relist[i][j+1].nomer;
+				}
+			}
+		}
+	}
+	
+	for (int i = 0; i < N; i++) {
+		if (relist[i].GetSize()){
+			printf("V%d:", i + 1);
+			for (int j = 0; j < relist[i].GetSize(); j++) {
+				printf(" v%d", relist[i][j].nomer + 1);
+			}
 		}
 		printf("\n");
 	}
@@ -164,9 +240,16 @@ void zad1() {
 			}
 		}
 		m2[kol1][kol1] = 1;
-		
-		//// ************//////////
-
+		N2--;
+		////
+		for (int i = 0; i < N2; i++) { // вывод массива
+			for (int j = 0; j < N2; j++) {
+				printf("%d ", m2[i][j]);
+			}
+			printf("\n");
+		}
+		N2++;
+		///////////////*********************//////////////
 		bool flag(!true);
 		for (int i = 0; i < relist[kol2].GetSize(); i++) {
 			flag = false;
@@ -185,41 +268,75 @@ void zad1() {
 				if (relist[i][j].nomer == kol2) {
 					relist[i].removeAt(j);
 				}
-				else {
-					if (relist[i][j].nomer > kol2) {
-						relist[i][j].nomer--;
-					}
+				/*
+				if (relist[i][j].nomer > kol2) {
+					relist[i][j].nomer--;
 				}
+				*/
 			}
 		}
 
+		relist[kol2].clear();
+
+		/*
 		for (int i = kol2; i < N2; i++) {
 			relist[i].clear();
 			for (int j = 0; j < relist[i + 1].GetSize(); j++) {
 				relist[i].push_back(relist[i + 1][j]);
 			}
 		}
+		*/
+		for (int i = 0; i < relist[kol1].GetSize(); i++){
+			flag = false;
+			for (int j = 0; j < relist[relist[kol1][i].nomer].GetSize(); j++){
+				if (relist[relist[kol1][i].nomer][j].nomer == kol1){
+					flag = true;
+				}
+			}
+			if (!flag){
+				temp.nomer = kol1;
+				relist[relist[kol1][i].nomer].push_back(temp);
+			}
+		}
+
+
+		flag = false;
+		for (int i = 0; i < relist[kol1].GetSize(); i++){
+			if (relist[kol1][i].nomer == kol1){
+				flag = true;
+			}
+		}
+		if (!flag){
+			temp.nomer = kol1;
+			relist[kol1].push_back(temp);
+		}
+		N2--;
 	}
 	else {
 		printf("Vershini ne smejnie\n");
 	}
 
-	N2--;
-
-	for (int i = 0; i < N2; i++) { // вывод массива
-		for (int j = 0; j < N2; j++) {
-			printf("%d ", m2[i][j]);
+	for (int i = 0;  i < N2; i++){
+		for (int counter = 0; counter < relist[i].GetSize(); counter++){
+			for (int j = 0; j < relist[i].GetSize() - 1 ; j++){
+				if (relist[i][j].nomer > relist[i][j+1].nomer) {
+					relist[i][j].nomer = relist[i][j].nomer ^ relist[i][j+1].nomer;
+					relist[i][j + 1].nomer = relist[i][j+1].nomer ^ relist[i][j].nomer;
+					relist[i][j].nomer = relist[i][j].nomer ^ relist[i][j+1].nomer;
+				}
+			}
 		}
-		printf("\n");
 	}
 
 	printf("\n");
 	printf("\n");
 
-	for (int i = 0; i < N2; i++) {
-		printf("V%d:", i + 1);
-		for (int j = 0; j < relist[i].GetSize(); j++) {
-			printf(" v%d", relist[i][j].nomer + 1);
+	for (int i = 0; i < N; i++) {
+		if (relist[i].GetSize()){
+			printf("V%d:", i + 1);
+			for (int j = 0; j < relist[i].GetSize(); j++) {
+				printf(" v%d", relist[i][j].nomer + 1);
+			}
 		}
 		printf("\n");
 	}
@@ -274,22 +391,35 @@ void zad1() {
 	////////////////***************/////////////
 	if (!relist[kol1].GetSize()) {
 		temp.nomer = kol1;
-		relist[N2].push_back(temp);
-		temp.nomer = N2;
+		relist[N].push_back(temp);
+		temp.nomer = N;
 		relist[kol1].push_back(temp);
 	}
 	else {
-			temp.nomer = kol1;
-			relist[N2].push_back(temp);
-			temp.nomer = N2;
-			relist[kol1].push_back(temp);
-			relist[N2].push_back(relist[kol1][relist[kol1].GetSize()-1]);
+			relist[N].push_back(relist[kol1][relist[kol1].GetSize()-1]);
 			if (relist[kol1].GetSize() > 1) {
 				relist[kol1].removeAt(relist[kol1].GetSize()-1);
 			}
+			temp.nomer = kol1;
+			relist[N].push_back(temp);
+			temp.nomer = N;
+			relist[kol1].push_back(temp);		
 	}
 
 	N2++;
+
+	for (int i = 0;  i < N + 1; i++){
+		for (int counter = 0; counter < relist[i].GetSize(); counter++){
+			for (int j = 0; j < relist[i].GetSize() - 1 ; j++){
+				if (relist[i][j].nomer > relist[i][j+1].nomer) {
+					relist[i][j].nomer = relist[i][j].nomer ^ relist[i][j+1].nomer;
+					relist[i][j + 1].nomer = relist[i][j+1].nomer ^ relist[i][j].nomer;
+					relist[i][j].nomer = relist[i][j].nomer ^ relist[i][j+1].nomer;
+				}
+			}
+		}
+	}
+
 	///////////////////////////////////////////////////////////////
 
 	for (int i = 0; i < N2; i++) { // вывод массива
@@ -302,10 +432,265 @@ void zad1() {
 	printf("\n");
 	printf("\n");
 
+	for (int i = 0; i < N+1; i++) {
+		if (relist[i].GetSize()){
+			printf("V%d:", i + 1);
+			for (int j = 0; j < relist[i].GetSize(); j++) {
+				printf(" v%d", relist[i][j].nomer + 1);
+			}
+		}
+		printf("\n");
+	}
+
+	printf("\n\n");
+	_getch();
+}
+
+void zad23(){
+	const unsigned int N1 = 5;
+	const unsigned int N2 = 10;
+	
+	int m1[N1][N1];
+	int m2[N2][N2];
+	
+	const unsigned int N = max(N1,N2);
+	int minn = min(N1,N2);
+
+	int c[N][N];
+
+	srand(time(NULL)); // заполнение
+	for (int i = 0; i < N1; i++) {
+		for (int j = (1 + i); j < N1; j++) {
+			m1[i][j] = rand() % 2;
+			m1[j][i] = m1[i][j];
+		}
+	}
+
+	for (int i = 0; i < N1; i++){
+		m1[i][i] = 0;
+	}
+
+
+	for (int i = 0; i < N1; i++) { // вывод массива
+		for (int j = 0; j < N1; j++) {
+			printf("%d ", m1[i][j]);
+		}
+		printf("\n");
+	}
+
+	printf("\n");
+	printf("\n");
+	// заполнение
+
 	for (int i = 0; i < N2; i++) {
-		printf("V%d:", i + 1);
-		for (int j = 0; j < relist[i].GetSize(); j++) {
-			printf(" v%d", relist[i][j].nomer + 1);
+		for (int j = (1 + i); j < N2; j++) {
+			m2[i][j] = rand() % 2;
+			m2[j][i] = m2[i][j];
+		}
+	}
+
+	for (int i = 0; i < N2; i++){
+		m2[i][i] = 0;
+	}
+
+	for (int i = 0; i < N2; i++) { // вывод массива
+		for (int j = 0; j < N; j++) {
+			printf("%d ", m2[i][j]);
+		}
+		printf("\n");
+	}
+
+	printf("\n");
+	printf("\n");
+	printf("Resltat ob'edinenia");
+	printf("\n");
+	printf("\n");
+
+	for (int i = 0; i < N; i++){
+		for (int j = 0; j < N; j++){
+			c[i][j] = 0;
+		}
+	}
+
+	for (int i = 0; i < minn; i++) {
+		for (int j = 0; j < minn; j++) {
+			if (m1[i][j] || m2[i][j]) {
+				c[i][j] = 1;
+			}
+			else {
+				c[i][j] = 0;
+			}
+		}
+	}
+
+	for (int i = 0; i < N; i++) { // вывод массива
+		for (int j = 0; j < N; j++) {
+			printf("%d ", c[i][j]);
+		}
+		printf("\n");
+	}
+	//////////////////////////////////////////////////////////////
+	printf("\n");
+	printf("\n");
+	printf("Resltat peresechenie");
+	printf("\n");
+	printf("\n");
+	
+	for (int i = 0; i < N; i++){
+		for (int j = 0; j < N; j++){
+			c[i][j] = 0;
+		}
+	}
+
+	for (int i = 0; i < minn; i++) {
+		for (int j = 0; j < minn; j++) {
+			if (m1[i][j] && m2[i][j]) {
+				c[i][j] = 1;
+			}
+			else {
+				c[i][j] = 0;
+			}
+		}
+	}
+
+	for (int i = 0; i < N; i++) { // вывод массива
+		for (int j = 0; j < N; j++) {
+			printf("%d ", c[i][j]);
+		}
+		printf("\n");
+	}
+	//////////////////////////////////////////////////////////////////////
+	printf("\n");
+	printf("\n");
+	printf("Resltat kolcevaai summa");
+	printf("\n");
+	printf("\n");
+
+	for (int i = 0; i < N; i++){
+		for (int j = 0; j < N; j++){
+			c[i][j] = 0;
+		}
+	}
+
+	for (int i = 0; i < minn; i++) {
+		for (int j = 0; j < minn; j++) {
+			if ((m1[i][j] && (!m2[i][j])) || ((!m1[i][j]) && m2[i][j])) {
+				c[i][j] = 1;
+			}
+			else {
+				c[i][j] = 0;
+			}
+		}
+	}
+
+	for (int i = 0; i < N; i++) { // вывод массива
+		for (int j = 0; j < N; j++) {
+			printf("%d ", c[i][j]);
+		}
+		printf("\n");
+	}
+
+	printf("\n\n");
+
+	_getch();
+}
+
+void zad4() {
+	const unsigned int N1 = 4;
+	const unsigned int N2 = 4;
+
+	const unsigned int N3 = N1*N2;
+
+	int a[N1][N1];
+	int b[N2][N2];
+	int c[N3][N3];
+	
+	srand(time(NULL)); // заполнение
+	for (int i = 0; i < N1; i++) {
+		for (int j = (1 + i); j < N1; j++) {
+			a[i][j] = rand() % 2;
+			a[j][i] = a[i][j];
+		}
+	}
+
+	for (int i = 0; i < N1; i++) {
+			a[i][i] = 0;
+	}
+
+	for (int i = 0; i < N2; i++) {
+		for (int j = (1 + i); j < N2; j++) {
+			b[i][j] = rand() % 2;
+			b[j][i] = b[i][j];
+		}
+	}
+
+	for (int i = 0; i < N2; i++) {
+			b[i][i] = 0;
+	}
+
+	int N;
+	if (N1 > N2) {
+		N = N1;
+	}
+	else {
+		N = N2;
+	}
+
+	for (int i = 0; i < N3; i++) {
+		for (int j = 0; j < N3; j++) {
+			c[i][j] = 0;
+		}
+	}
+
+	int x1, x2, y1, y2;
+	for (int i = 0; i < N3; i++) {
+		for (int j = 0; j < N3; j++) {
+			x1 = i / N;
+			x2 = i % N;
+			y1 = j / N;
+			y2 = j % N;
+
+			if (x1 == y1) {
+				if (b[x2][y2]) {
+					c[i][j] = 1;
+				}
+			}
+			else {
+				if (x2 == y2) {
+					if (a[x1][y1]) {
+						c[i][j] = 1;
+					}
+				}
+			}
+		}
+	}
+
+	printf("Decartovoe proizvedenie: \n\n");
+
+	for (int i = 0; i < N1; i++) {
+		for (int j = 0; j < N1; j++) {
+			printf("%d ", a[i][j]);
+		}
+		printf("\n");
+	}
+
+	printf("\n");
+	printf("\n");
+
+	for (int i = 0; i < N2; i++) {
+		for (int j = 0; j < N2; j++) {
+			printf("%d ", b[i][j]);
+		}
+		printf("\n");
+	}
+
+	printf("\n");
+	printf("Result: ");
+	printf("\n");
+
+	for (int i = 0; i < N3; i++) {
+		for (int j = 0; j < N3; j++) {
+			printf("%d " , c[i][j]);
 		}
 		printf("\n");
 	}
